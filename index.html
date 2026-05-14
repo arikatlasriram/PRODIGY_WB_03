@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description"
+    content="A modern Tic-Tac-Toe game with AI opponent, difficulty levels, dark/light mode, scoreboard, and confetti animation. Play against a friend or challenge the AI!" />
+  <title>✨ Tic-Tac-Toe Pro | AI Powered</title>
+  <link rel="stylesheet" href="style.css" />
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap"
+    rel="stylesheet" />
+</head>
+
+<body>
+
+  <!-- ==================== BACKGROUND PARTICLES ==================== -->
+  <div class="particles-container" id="particles-container"></div>
+
+  <!-- ==================== THEME TOGGLE ==================== -->
+  <button class="theme-toggle" id="theme-toggle" title="Toggle Dark/Light Mode" aria-label="Toggle Theme">
+    <span class="theme-icon" id="theme-icon">🌙</span>
+  </button>
+
+  <!-- ==================== MUSIC TOGGLE ==================== -->
+  <button class="music-toggle" id="music-toggle" title="Toggle Background Music" aria-label="Toggle Music">
+    <span id="music-icon">🎵</span>
+  </button>
+
+  <!-- ==================== MAIN WRAPPER ==================== -->
+  <div class="wrapper">
+
+    <!-- ==================== HEADER / TITLE ==================== -->
+    <header class="game-header">
+      <div class="title-glow">
+        <h1 class="game-title">🎮 Tic-Tac-Toe <span class="pro-badge">PRO</span></h1>
+        <p class="subtitle">Ultimate AI-Powered Game Experience</p>
+      </div>
+    </header>
+
+    <!-- ==================== SCOREBOARD ==================== -->
+    <section class="scoreboard" aria-label="Scoreboard">
+      <div class="score-card" id="score-x">
+        <div class="score-symbol x-symbol">✕</div>
+        <div class="score-label">Player X</div>
+        <div class="score-value" id="x-wins">0</div>
+        <div class="score-sub">Wins</div>
+      </div>
+      <div class="score-card draws-card" id="score-draws">
+        <div class="score-symbol draw-symbol">🤝</div>
+        <div class="score-label">Draws</div>
+        <div class="score-value" id="draws">0</div>
+        <div class="score-sub">Ties</div>
+      </div>
+      <div class="score-card" id="score-o">
+        <div class="score-symbol o-symbol">○</div>
+        <div class="score-label">Player O</div>
+        <div class="score-value" id="o-wins">0</div>
+        <div class="score-sub">Wins</div>
+      </div>
+    </section>
+
+    <!-- ==================== GAME CONTROLS ==================== -->
+    <section class="controls-section" aria-label="Game Controls">
+      <!-- Mode Selector -->
+      <div class="control-group">
+        <label class="control-label" for="game-mode">🕹️ Game Mode</label>
+        <div class="btn-group" id="game-mode">
+          <button class="mode-btn active" id="mode-pvp" data-mode="pvp" aria-pressed="true">👥 2 Players</button>
+          <button class="mode-btn" id="mode-ai" data-mode="ai" aria-pressed="false">🤖 vs AI</button>
+        </div>
+      </div>
+
+      <!-- Difficulty Selector (shown only in AI mode) -->
+      <div class="control-group" id="difficulty-group" style="display:none;">
+        <label class="control-label" for="difficulty">🧠 Difficulty</label>
+        <div class="btn-group" id="difficulty">
+          <button class="diff-btn active" data-diff="easy" aria-pressed="true">😊 Easy</button>
+          <button class="diff-btn" data-diff="medium" aria-pressed="false">😐 Medium</button>
+          <button class="diff-btn" data-diff="hard" aria-pressed="false">😈 Hard</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== STATUS TEXT ==================== -->
+    <div class="status-container">
+      <div class="status-text" id="status-text">
+        <span class="status-icon" id="status-icon">🎯</span>
+        <span id="status-message">Player X's Turn</span>
+      </div>
+    </div>
+
+    <!-- ==================== GAME BOARD ==================== -->
+    <main class="board-container" role="main">
+      <div class="board" id="board" aria-label="Tic-Tac-Toe Board">
+        <div class="cell" id="cell-0" role="button" tabindex="0" aria-label="Cell 1"></div>
+        <div class="cell" id="cell-1" role="button" tabindex="0" aria-label="Cell 2"></div>
+        <div class="cell" id="cell-2" role="button" tabindex="0" aria-label="Cell 3"></div>
+        <div class="cell" id="cell-3" role="button" tabindex="0" aria-label="Cell 4"></div>
+        <div class="cell" id="cell-4" role="button" tabindex="0" aria-label="Cell 5"></div>
+        <div class="cell" id="cell-5" role="button" tabindex="0" aria-label="Cell 6"></div>
+        <div class="cell" id="cell-6" role="button" tabindex="0" aria-label="Cell 7"></div>
+        <div class="cell" id="cell-7" role="button" tabindex="0" aria-label="Cell 8"></div>
+        <div class="cell" id="cell-8" role="button" tabindex="0" aria-label="Cell 9"></div>
+      </div>
+    </main>
+
+    <!-- ==================== ACTION BUTTONS ==================== -->
+    <section class="action-buttons" aria-label="Game Actions">
+      <button class="btn btn-restart" id="restart-btn" title="Restart Game">
+        🔄 Restart Game
+      </button>
+      <button class="btn btn-reset-scores" id="reset-scores-btn" title="Reset Scores">
+        🗑️ Reset Scores
+      </button>
+      <button class="btn btn-history" id="history-btn" title="View Game History">
+        📜 History
+      </button>
+    </section>
+
+    <!-- ==================== GAME HISTORY PANEL ==================== -->
+    <section class="history-panel" id="history-panel" aria-label="Game History" style="display:none;">
+      <h3 class="history-title">📜 Game History</h3>
+      <div class="history-list" id="history-list">
+        <p class="history-empty">No games played yet.</p>
+      </div>
+      <button class="btn btn-clear-history" id="clear-history-btn">🗑️ Clear History</button>
+    </section>
+
+  </div><!-- end .wrapper -->
+
+  <!-- ==================== WIN MODAL ==================== -->
+  <div class="modal-overlay" id="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modal-title"
+    style="display:none;">
+    <div class="modal" id="win-modal">
+      <div class="modal-emoji" id="modal-emoji">🏆</div>
+      <h2 class="modal-title" id="modal-title">Player X Wins!</h2>
+      <p class="modal-subtitle" id="modal-subtitle">Congratulations! 🎉</p>
+      <div class="modal-actions">
+        <button class="btn btn-play-again" id="play-again-btn">🎮 Play Again</button>
+        <button class="btn btn-close-modal" id="close-modal-btn">✕ Close</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== CONFETTI CANVAS ==================== -->
+  <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;pointer-events:none;z-index:9999;"></canvas>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="footer">
+    <p>Built with ❤️ by <strong>Sriram</strong> &nbsp;|&nbsp; Tic-Tac-Toe Pro &copy; 2026</p>
+    <p class="footer-sub">Prodigy InfoTech — Task 03</p>
+  </footer>
+
+  <!-- ==================== AUDIO ELEMENTS ==================== -->
+  <!-- Using Web Audio API for sound effects (no external files needed) -->
+
+  <script src="script.js"></script>
+</body>
+
+</html>
